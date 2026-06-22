@@ -8,7 +8,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode
 import io.papermc.paper.command.brigadier.CommandSourceStack
 import io.papermc.paper.command.brigadier.Commands
 
-abstract class AbstractCommand(name: String) {
+sealed class AbstractCommand(name: String) {
     val instance: LiteralCommandNode<CommandSourceStack> = Commands.literal(name).run {
         init()
         build()

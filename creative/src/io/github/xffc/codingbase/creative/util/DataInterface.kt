@@ -29,4 +29,10 @@ object DataInterface {
         Worlds.selectAll()
             .where { Worlds.owner eq owner }
             .map { Worlds.toData(it) }
+
+    fun getPlayerWorld(worldId: UInt): CreativeWorldInfo = Worlds.toData(
+        Worlds.selectAll()
+            .where { Worlds.id eq worldId }
+            .first()
+    )
 }

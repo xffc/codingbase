@@ -22,6 +22,10 @@ subprojects {
         java.srcDir("src")
         resources.srcDir("resources")
     }
+
+    tasks.withType<Jar> {
+        destinationDirectory = file("$rootDir/build")
+    }
 }
 
 kotlin {

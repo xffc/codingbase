@@ -14,10 +14,12 @@ dependencies {
     paperLibrary(libs.exposed.core)
     paperLibrary(libs.exposed.json)
     paperLibrary(libs.exposed.jdbc)
+
+    paperLibrary("com.h2database:h2:2.4.240")
 }
 
 paper {
-    main = "$group.${project.name}.RuntimePlugin"
+    main = "$group.${project.name}.CreativePlugin"
     bootstrapper = "$group.${project.name}.Bootstrapper"
     loader = "$group.${project.name}.Loader"
     apiVersion = libs.versions.minecraft.get()

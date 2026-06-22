@@ -2,7 +2,9 @@ package io.github.xffc.codingbase.creative.menu
 
 import io.github.xffc.codingbase.creative.extensions.customName
 import io.github.xffc.codingbase.creative.extensions.translatable
+import io.github.xffc.codingbase.creative.extensions.worldId
 import io.github.xffc.codingbase.creative.util.DataInterface
+import io.github.xffc.codingbase.creative.worlds.CreativeWorldFactory
 import kotlinx.coroutines.launch
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -38,6 +40,32 @@ class PlayerWorldsMenu(
     }
 
     override fun onClick(event: InventoryClickEvent) {
-        // todo заход в мир либо создание
+        val item = event.currentItem ?: return
+
+        if (item == createWorldItem) {
+            event.whoClicked.openInventory(CreateWorldMenu(player).inventory)
+            return
+        }
+
+        item.worldId?.also {
+            join(it)
+        }
+    }
+
+    private fun join(worldId: UInt) {
+        val world = CreativeWorldFactory.get(worldId)
+
+        if (world == null) {
+            DataInterface.scope.launch {
+                val info = suspendTransaction {
+                    DataInterface.getPlayerWorld(worldId)
+                }
+
+                val world = CreativeWorldFactory.load(info)
+                world.join(player)
+            }
+        } else {
+            world.join(player)
+        }
     }
 }

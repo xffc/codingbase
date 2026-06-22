@@ -2,6 +2,7 @@ package io.github.xffc.codingbase.creative.data
 
 import io.github.xffc.codingbase.creative.extensions.customName
 import io.github.xffc.codingbase.creative.extensions.namespaced
+import io.github.xffc.codingbase.creative.extensions.noStyle
 import io.github.xffc.codingbase.creative.extensions.setTag
 import io.github.xffc.codingbase.creative.worlds.generator.WorldGeneratorType
 import net.kyori.adventure.text.Component
@@ -21,7 +22,7 @@ data class CreativeWorldInfo(
     // еще придумал короче барьер ставить если у игрока нет разрешения на вход
     fun toItemStack() =
         ItemStack.of(Material.GRASS_BLOCK)
-            .customName(name)
+            .customName(name.noStyle)
             .setTag(worldKey, PersistentDataType.LONG, id.toLong())
 
     companion object {

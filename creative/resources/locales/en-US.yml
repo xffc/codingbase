@@ -1,0 +1,23 @@
+menu:
+  playerworlds:
+    title: "Your worlds"
+    create: "Create world"
+
+  createworld:
+    title: "World creation"
+
+    worldtype:
+      name: "World type"
+      void: "Void"
+      plain: "Plain"
+
+    worldname:
+      name: "World name"
+      text: "You have 30 seconds to type new world name in chat."
+      default: "<arg:0>'s world"
+
+    cancel: "Cancel world creation"
+    create: "Create world"
+
+items:
+  textinput.current: "Current: <arg:0>"

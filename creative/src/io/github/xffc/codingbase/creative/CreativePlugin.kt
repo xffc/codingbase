@@ -3,11 +3,14 @@ package io.github.xffc.codingbase.creative
 import io.github.xffc.codingbase.creative.commands.AbstractCommand
 import io.github.xffc.codingbase.creative.data.Worlds
 import io.github.xffc.codingbase.creative.extensions.namespaced
+import io.github.xffc.codingbase.creative.items.CustomItem
 import io.github.xffc.codingbase.creative.util.DataInterface
 import io.github.xffc.codingbase.creative.util.GlobalListener
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents
 import net.kyori.adventure.text.minimessage.translation.MiniMessageTranslationStore
 import net.kyori.adventure.translation.GlobalTranslator
+import org.bukkit.Bukkit
+import org.bukkit.World
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
@@ -15,14 +18,19 @@ import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import java.io.File
 import java.util.Locale
 
-object CreativePlugin: JavaPlugin() {
+object CreativePlugin : JavaPlugin() {
     val locales = listOf(Locale.US)
 
     val IS_DEBUG_ENV = System.getProperty("IS_DEBUG", "true").toBoolean()
 
     const val WORLDS_PREFIX = "worlds/"
 
+    lateinit var spawnWorld: World
+        private set
+
     override fun onEnable() {
+        spawnWorld = server.worlds.first()
+
         registerLocales()
 
         if (IS_DEBUG_ENV) File(server.worldContainer, WORLDS_PREFIX).deleteRecursively()

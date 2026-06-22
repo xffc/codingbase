@@ -10,7 +10,7 @@ class CreativeWorld(
     val instance: World,
     val info: CreativeWorldInfo
 ) {
-    // todo: ивент захода всё такое
+    // todo: ивент захода всё такое, сброс игрока
     fun join(player: Player) {
         player.teleport(instance.spawnLocation)
     }

@@ -10,6 +10,7 @@ class WorldGenerator(size: UShort, private val generator: Generator): ChunkGener
     val center = bounds.last / 2
 
     override fun generateSurface(worldInfo: WorldInfo, random: Random, chunkX: Int, chunkZ: Int, chunkData: ChunkData) {
+        if (chunkX !in bounds || chunkZ !in bounds) return
         generator.generate(this, chunkX, chunkZ, chunkData)
     }
 

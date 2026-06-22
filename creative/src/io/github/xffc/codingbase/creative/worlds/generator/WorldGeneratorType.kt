@@ -5,14 +5,14 @@ import io.github.xffc.codingbase.creative.worlds.generator.WorldGenerator.Compan
 import org.bukkit.Material
 import org.bukkit.generator.ChunkGenerator
 
-enum class WorldGeneratorType: WorldGenerator.Generator {
-    VOID {
+enum class WorldGeneratorType(val material: Material) : WorldGenerator.Generator {
+    VOID(Material.STRUCTURE_VOID) {
         override fun generate(generator: WorldGenerator, chunkX: Int, chunkZ: Int, chunkData: ChunkGenerator.ChunkData) {
             if (chunkX != generator.center || chunkZ != generator.center) return
             chunkData.fillY(SPAWN_HEIGHT - 1, 1, Material.STONE)
         }
     },
-    PLAIN {
+    PLAIN(Material.GRASS_BLOCK) {
         override fun generate(generator: WorldGenerator, chunkX: Int, chunkZ: Int, chunkData: ChunkGenerator.ChunkData) {
             chunkData.fillY(SPAWN_HEIGHT - 1, 1, Material.GRASS_BLOCK)
             chunkData.fillY(SPAWN_HEIGHT - 4, 3, Material.DIRT)

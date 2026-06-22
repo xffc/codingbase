@@ -1,6 +1,7 @@
 package io.github.xffc.codingbase.creative.menu
 
 import io.github.xffc.codingbase.creative.extensions.customName
+import io.github.xffc.codingbase.creative.extensions.noStyle
 import io.github.xffc.codingbase.creative.extensions.translatable
 import io.github.xffc.codingbase.creative.extensions.worldId
 import io.github.xffc.codingbase.creative.util.DataInterface
@@ -19,7 +20,7 @@ class PlayerWorldsMenu(
         const val MAX_WORLDS = 4 // todo: временное решение пока что, потом перенести в мету игрока лакпермса
 
         private val createWorldItem = ItemStack.of(Material.WHITE_STAINED_GLASS_PANE)
-            .customName("menu.playerworlds.create".translatable())
+            .customName("menu.playerworlds.create".translatable().noStyle)
     }
 
     init {
@@ -48,6 +49,7 @@ class PlayerWorldsMenu(
         }
 
         item.worldId?.also {
+            player.closeInventory()
             join(it)
         }
     }

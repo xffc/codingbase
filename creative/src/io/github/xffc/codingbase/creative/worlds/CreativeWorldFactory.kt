@@ -4,6 +4,7 @@ import io.github.xffc.codingbase.creative.CreativePlugin.WORLDS_PREFIX
 import io.github.xffc.codingbase.creative.data.CreativeWorldInfo
 import io.github.xffc.codingbase.creative.worlds.generator.SimpleBiomeProvider
 import io.github.xffc.codingbase.creative.worlds.generator.WorldGenerator
+import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.WorldCreator
 import org.bukkit.block.Biome
@@ -19,7 +20,9 @@ object CreativeWorldFactory {
 
     fun create(info: CreativeWorldInfo): CreativeWorld {
         val instance = createInstance(info)
-        // todo: геймрулы
+        val center = info.size.toDouble() * 16 / 2
+        instance.spawnLocation = Location(instance, center, WorldGenerator.SPAWN_HEIGHT.toDouble(), center)
+        // todo: геймрулы, worldborder
         return register(instance, info)
     }
 

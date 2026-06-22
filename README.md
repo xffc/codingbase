@@ -10,7 +10,6 @@
 * [ ] миры
   * [ ] factory для создания
   * [ ] бд
-    * [ ] сделать API
   * [ ] worldstate
     * playstate
     * buildstate

@@ -14,7 +14,6 @@ import org.jetbrains.exposed.v1.jdbc.Database
 import org.jetbrains.exposed.v1.jdbc.selectAll
 import java.util.UUID
 
-// todo: наверное надо вынести это в отдельное апи
 object DataInterface {
     val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 

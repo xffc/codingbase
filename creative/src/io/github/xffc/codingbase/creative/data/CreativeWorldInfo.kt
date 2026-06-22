@@ -1,0 +1,27 @@
+package io.github.xffc.codingbase.creative.data
+
+import io.github.xffc.codingbase.creative.extensions.customName
+import io.github.xffc.codingbase.creative.extensions.namespaced
+import io.github.xffc.codingbase.creative.extensions.setTag
+import net.kyori.adventure.text.Component
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
+import java.util.UUID
+
+data class CreativeWorldInfo(
+    val id: UInt,
+    var name: Component,
+    var owner: UUID
+) {
+    // todo: лор мира типа голоса овнер итд
+    // еще придумал короче барьер ставить если у игрока нет разрешения на вход
+    fun toItemStack() =
+        ItemStack.of(Material.GRASS_BLOCK)
+            .customName(name)
+            .setTag(worldKey, PersistentDataType.LONG, id.toLong())
+
+    companion object {
+        val worldKey = "world".namespaced
+    }
+}

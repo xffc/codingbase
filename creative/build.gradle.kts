@@ -6,6 +6,14 @@ plugins {
 
 dependencies {
     paperweight.paperDevBundle("${libs.versions.minecraft.get()}-R0.1-SNAPSHOT")
+
+    paperLibrary(kotlin("stdlib"))
+    paperLibrary(kotlin("reflect"))
+    paperLibrary(libs.coroutines.core)
+    paperLibrary(libs.serialization.json)
+    paperLibrary(libs.exposed.core)
+    paperLibrary(libs.exposed.json)
+    paperLibrary(libs.exposed.jdbc)
 }
 
 paper {

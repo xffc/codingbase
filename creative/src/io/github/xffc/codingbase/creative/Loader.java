@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class Loader implements PluginLoader {
     @Override
     public void classloader(PluginClasspathBuilder builder) {

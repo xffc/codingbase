@@ -35,7 +35,6 @@ class TextInputItem(
             listOf(
                 "items.textinput.current"
                     .translatable(text.color(NamedTextColor.WHITE))
-                    .noStyle
                     .color(NamedTextColor.DARK_GRAY)
             )
         )

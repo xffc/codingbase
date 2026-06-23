@@ -21,7 +21,7 @@ class SwitchItem<T>(
     private val entries: List<Entry<T>>
 ) : CustomItem<T>(
     translationPath,
-    ItemStack.of(Material.STONE).customName("${translationPath}.name".translatable().noStyle)
+    ItemStack.of(Material.STONE).customName("${translationPath}.name".translatable())
 ) {
     var currentIndex = 0
 
@@ -38,7 +38,7 @@ class SwitchItem<T>(
             val entryText = "${translationPath}.${entry.name}".translatable()
                 .color(if (index == currentIndex) NamedTextColor.WHITE else NamedTextColor.DARK_GRAY)
 
-            "> ".miniMessage.color(prefixColor).append(entryText).noStyle
+            "> ".miniMessage.color(prefixColor).append(entryText)
         })
 
     override fun onClick(event: InventoryClickEvent) {

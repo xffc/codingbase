@@ -16,8 +16,18 @@ menu:
       text: "You have 30 seconds to type new world name in chat."
       default: "<arg:0>'s world"
 
+    closed:
+      name: "Is world closed"
+      closed: "Yes"
+      open: "No"
+
     cancel: "Cancel world creation"
     create: "Create world"
 
 items:
   textinput.current: "Current: <arg:0>"
+
+  world:
+    owner: "Owner: <arg:0>"
+    id: "ID: <arg:0>"
+    join: "Click LMB to join"

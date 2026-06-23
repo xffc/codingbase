@@ -1,7 +1,7 @@
 package io.github.xffc.codingbase.creative.menu
 
+import io.github.xffc.codingbase.creative.data.CreativeWorldInfo
 import io.github.xffc.codingbase.creative.extensions.customName
-import io.github.xffc.codingbase.creative.extensions.noStyle
 import io.github.xffc.codingbase.creative.extensions.plain
 import io.github.xffc.codingbase.creative.extensions.runSync
 import io.github.xffc.codingbase.creative.extensions.translatable
@@ -23,13 +23,21 @@ import org.jetbrains.exposed.v1.jdbc.transactions.suspendTransaction
 class CreateWorldMenu(private val player: Player) : AbstractMenu("menu.createworld.title".translatable()) {
     companion object {
         private val cancelCreationItem = ItemStack.of(Material.BARRIER)
-            .customName("menu.createworld.cancel".translatable().noStyle)
+            .customName("menu.createworld.cancel".translatable())
 
         private val createWorldItem = ItemStack.of(Material.GREEN_STAINED_GLASS_PANE)
-            .customName("menu.createworld.create".translatable().noStyle)
+            .customName("menu.createworld.create".translatable())
     }
 
-    val worldTypeItem = SwitchItem(
+    val nameItem = TextInputItem(
+        "menu.createworld.worldname",
+        this,
+        ItemStack.of(Material.NAME_TAG)
+            .customName("menu.createworld.worldname.name".translatable()),
+        "menu.createworld.worldname.default".translate(player.locale(), player.name.plain)
+    )
+
+    val typeItem = SwitchItem(
         "menu.createworld.worldtype",
         this,
         WorldGeneratorType.entries.map {
@@ -37,12 +45,13 @@ class CreateWorldMenu(private val player: Player) : AbstractMenu("menu.createwor
         }
     )
 
-    val worldNameItem = TextInputItem(
-        "menu.createworld.worldname",
+    val closedItem = SwitchItem(
+        "menu.createworld.closed",
         this,
-        ItemStack.of(Material.NAME_TAG)
-            .customName("menu.createworld.worldname.name".translatable().noStyle),
-        "menu.createworld.worldname.default".translate(player.locale(), player.name.plain)
+        listOf(
+            SwitchItem.Entry("closed", true, Material.IRON_DOOR),
+            SwitchItem.Entry("open", false, Material.OAK_DOOR)
+        )
     )
 
     init {
@@ -50,8 +59,9 @@ class CreateWorldMenu(private val player: Player) : AbstractMenu("menu.createwor
     }
 
     override fun tick() {
-        inv.setItem(10, worldTypeItem.stack)
-        inv.setItem(11, worldNameItem.stack)
+        inv.setItem(10, nameItem.stack)
+        inv.setItem(11, typeItem.stack)
+        inv.setItem(12, closedItem.stack)
         inv.setItem(15, cancelCreationItem)
         inv.setItem(16, createWorldItem)
     }
@@ -69,7 +79,14 @@ class CreateWorldMenu(private val player: Player) : AbstractMenu("menu.createwor
         DataInterface.scope.launch {
             val info = suspendTransaction {
                 if (DataInterface.countWorlds(player.uniqueId) >= MAX_WORLDS) return@suspendTransaction null
-                DataInterface.create(player.uniqueId, worldNameItem.text, worldTypeItem.getValue())
+
+                CreativeWorldInfo(
+                    nameItem.getValue(),
+                    player.uniqueId,
+                    closedItem.getValue(),
+                    typeItem.getValue(),
+                    3u
+                ).also { DataInterface.create(it) }
             } ?: return@launch destroy()
 
             runSync {
@@ -84,8 +101,9 @@ class CreateWorldMenu(private val player: Player) : AbstractMenu("menu.createwor
     }
 
     private fun destroy() {
-        worldTypeItem.destroy()
-        worldNameItem.destroy()
+        typeItem.destroy()
+        nameItem.destroy()
+        closedItem.destroy()
     }
 
     override fun onClose(event: InventoryCloseEvent) {
@@ -94,6 +112,7 @@ class CreateWorldMenu(private val player: Player) : AbstractMenu("menu.createwor
             InventoryCloseEvent.Reason.PLAYER -> runSync {
                 event.player.openInventory(inventory)
             }
+
             else -> return
         }
     }

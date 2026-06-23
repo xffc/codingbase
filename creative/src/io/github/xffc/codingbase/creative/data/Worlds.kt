@@ -5,18 +5,29 @@ import io.github.xffc.codingbase.creative.worlds.generator.WorldGeneratorType
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.dao.id.UIntIdTable
 import org.jetbrains.exposed.v1.core.java.javaUUID
+import org.jetbrains.exposed.v1.core.statements.UpdateBuilder
 
-object Worlds: UIntIdTable("worlds") {
+// todo: голоса, иконка мира
+object Worlds : UIntIdTable("worlds") {
     val name = text("name")
     val owner = javaUUID("owner")
+    val closed = bool("closed")
     val generator = enumeration<WorldGeneratorType>("generator")
     val size = ushort("size")
 
     fun toData(row: ResultRow) = CreativeWorldInfo(
-        row[id].value,
         row[name].json,
         row[owner],
+        row[closed],
         row[generator],
         row[size]
-    )
+    ).also { it.id = row[id].value }
+
+    fun update(info: CreativeWorldInfo, builder: UpdateBuilder<*>) {
+        builder[name] = info.name.json
+        builder[owner] = info.owner
+        builder[closed] = info.closed
+        builder[generator] = info.generator
+        builder[size] = info.size
+    }
 }

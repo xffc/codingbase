@@ -20,7 +20,7 @@ class PlayerWorldsMenu(
         const val MAX_WORLDS = 4 // todo: временное решение пока что, потом перенести в мету игрока лакпермса
 
         private val createWorldItem = ItemStack.of(Material.WHITE_STAINED_GLASS_PANE)
-            .customName("menu.playerworlds.create".translatable().noStyle)
+            .customName("menu.playerworlds.create".translatable())
     }
 
     init {

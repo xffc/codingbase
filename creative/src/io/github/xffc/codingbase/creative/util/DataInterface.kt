@@ -14,6 +14,7 @@ import org.jetbrains.exposed.v1.core.StdOutSqlLogger
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.Database
 import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.insertAndGetId
 import org.jetbrains.exposed.v1.jdbc.insertReturning
 import org.jetbrains.exposed.v1.jdbc.select
 import org.jetbrains.exposed.v1.jdbc.selectAll
@@ -47,12 +48,9 @@ object DataInterface {
             .where { Worlds.owner eq owner }
             .count()
 
-    fun create(owner: UUID, name: Component, generator: WorldGeneratorType): CreativeWorldInfo = Worlds.toData(
-        Worlds.insert {
-            it[Worlds.name] = name.json
-            it[Worlds.owner] = owner
-            it[Worlds.generator] = generator
-            it[Worlds.size] = 3u // todo
-        }.resultedValues!!.first()
-    )
+    fun create(info: CreativeWorldInfo) {
+        info.id = Worlds.insertAndGetId {
+            Worlds.update(info, it)
+        }.value
+    }
 }

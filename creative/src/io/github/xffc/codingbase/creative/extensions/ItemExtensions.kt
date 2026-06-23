@@ -9,11 +9,13 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
 fun ItemStack.customName(name: Component) = apply {
-    setData(DataComponentTypes.CUSTOM_NAME, name)
+    setData(DataComponentTypes.CUSTOM_NAME, name.noStyle)
 }
 
+fun ItemStack.customLore(vararg lore: Component) = customLore(lore.asList())
+
 fun ItemStack.customLore(lore: List<Component>) = apply {
-    setData(DataComponentTypes.LORE, ItemLore.lore(lore))
+    setData(DataComponentTypes.LORE, ItemLore.lore(lore.map { it.noStyle }))
 }
 
 fun <P, C: Any> ItemStack.setTag(key: NamespacedKey, type: PersistentDataType<P, C>, value: C) = apply {

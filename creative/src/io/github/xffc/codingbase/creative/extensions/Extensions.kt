@@ -1,6 +1,7 @@
 package io.github.xffc.codingbase.creative.extensions
 
 import io.github.xffc.codingbase.creative.CreativePlugin
+import net.kyori.adventure.sound.Sound
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import java.util.UUID
@@ -13,3 +14,8 @@ val String.uuid: UUID?
 
 fun runSync(consumer: Runnable) =
     Bukkit.getScheduler().runTask(CreativePlugin, consumer)
+
+fun sound(type: Sound.Type, consumer: (Sound.Builder) -> Unit) = Sound.sound()
+    .type(type)
+    .apply { consumer(this) }
+    .build()

@@ -5,10 +5,12 @@ import io.github.xffc.codingbase.creative.extensions.customName
 import io.github.xffc.codingbase.creative.extensions.miniMessage
 import io.github.xffc.codingbase.creative.extensions.noStyle
 import io.github.xffc.codingbase.creative.extensions.setTag
+import io.github.xffc.codingbase.creative.extensions.sound
 import io.github.xffc.codingbase.creative.extensions.translatable
 import io.github.xffc.codingbase.creative.menu.AbstractMenu
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
@@ -49,7 +51,11 @@ class SwitchItem<T>(
                 else currentIndex - 1
             else return
 
-        // todo: play sound
+        event.whoClicked.playSound(sound(Sound.UI_BUTTON_CLICK) {
+            it.pitch(1.25f)
+            it.volume(.1f)
+        })
+
         stack = stack.update()
         menu.tick()
     }

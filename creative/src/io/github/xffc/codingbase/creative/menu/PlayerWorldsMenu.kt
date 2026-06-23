@@ -28,6 +28,8 @@ class PlayerWorldsMenu(
     }
 
     override fun tick() {
+        (0..<27).forEach { inv.setItem(it, FILL_ITEM) }
+
         DataInterface.scope.launch {
             val worlds = suspendTransaction {
                 DataInterface.getPlayerWorlds(player.uniqueId)
@@ -35,7 +37,7 @@ class PlayerWorldsMenu(
 
             (0..<MAX_WORLDS).forEach { index ->
                 val item = worlds.getOrNull(index)?.toItemStack() ?: createWorldItem
-                inv.setItem(index, item)
+                inv.setItem(index + 10, item)
             }
         }
     }

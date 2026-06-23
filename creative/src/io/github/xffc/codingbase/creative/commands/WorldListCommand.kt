@@ -16,6 +16,6 @@ object WorldListCommand: AbstractCommand("worldlist") {
 
     private fun openMenu(context: CommandContext<CommandSourceStack>) {
         val player = context.source.sender as Player
-        player.openInventory(WorldListMenu().inventory)
+        player.openInventory(WorldListMenu(player).inventory)
     }
 }

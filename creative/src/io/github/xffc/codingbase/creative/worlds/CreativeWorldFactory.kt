@@ -11,7 +11,7 @@ import org.bukkit.WorldCreator
 import org.bukkit.block.Biome
 
 object CreativeWorldFactory {
-    private val activeWorlds = mutableMapOf<UInt, CreativeWorld>()
+    val activeWorlds = mutableMapOf<UInt, CreativeWorld>()
 
     fun get(id: UInt): CreativeWorld? =
         activeWorlds[id]

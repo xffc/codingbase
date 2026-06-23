@@ -3,6 +3,8 @@ menu:
     title: "Your worlds"
     create: "Create world"
 
+  worldlist.title: "List of active worlds"
+
   createworld:
     title: "World creation"
 
@@ -31,3 +33,10 @@ items:
     owner: "Owner: <arg:0>"
     id: "ID: <arg:0>"
     join: "Click LMB to join"
+
+  paged:
+    next: "Next page"
+    previous: "Previous page"
+
+messages:
+  closed: "World is closed"

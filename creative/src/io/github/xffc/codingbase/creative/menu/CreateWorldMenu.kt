@@ -25,7 +25,7 @@ class CreateWorldMenu(private val player: Player) : AbstractMenu("menu.createwor
         private val cancelCreationItem = ItemStack.of(Material.BARRIER)
             .customName("menu.createworld.cancel".translatable())
 
-        private val createWorldItem = ItemStack.of(Material.GREEN_STAINED_GLASS_PANE)
+        private val createWorldItem = ItemStack.of(Material.LIME_STAINED_GLASS_PANE)
             .customName("menu.createworld.create".translatable())
     }
 

@@ -22,7 +22,7 @@ sealed class AbstractCommand(name: String) {
 
         fun <T: ArgumentBuilder<CommandSourceStack, T>> T.executes(
             consumer: (CommandContext<CommandSourceStack>) -> Unit
-        ) = executes {
+        ): T = executes {
             consumer(it)
             Command.SINGLE_SUCCESS
         }

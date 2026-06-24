@@ -2,6 +2,7 @@ package io.github.xffc.codingbase.creative.worlds
 
 import io.github.xffc.codingbase.creative.CreativePlugin.WORLDS_PREFIX
 import io.github.xffc.codingbase.creative.data.CreativeWorldInfo
+import io.github.xffc.codingbase.creative.data.CreativeWorldInfo.Companion.worldKey
 import io.github.xffc.codingbase.creative.worlds.generator.SimpleBiomeProvider
 import io.github.xffc.codingbase.creative.worlds.generator.WorldGenerator
 import org.bukkit.GameRules
@@ -9,6 +10,7 @@ import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.WorldCreator
 import org.bukkit.block.Biome
+import org.bukkit.persistence.PersistentDataType
 
 object CreativeWorldFactory {
     val activeWorlds = mutableMapOf<UInt, CreativeWorld>()
@@ -53,6 +55,7 @@ object CreativeWorldFactory {
 
     private fun register(instance: World, info: CreativeWorldInfo): CreativeWorld {
         val world = CreativeWorld(instance, info)
+        instance.persistentDataContainer.set(worldKey, PersistentDataType.LONG, info.id.toLong())
         activeWorlds[world.info.id] = world
         return world
     }

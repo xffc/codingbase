@@ -8,6 +8,7 @@ import io.github.xffc.codingbase.creative.extensions.setTag
 import io.github.xffc.codingbase.creative.extensions.translatable
 import io.github.xffc.codingbase.creative.worlds.generator.WorldGeneratorType
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -19,8 +20,8 @@ import kotlin.properties.Delegates
 class CreativeWorldInfo(
     var name: Component,
     var owner: UUID,
-    var closed: Boolean,
-    val generator: WorldGeneratorType,
+    var isClosed: Boolean,
+    var generator: WorldGeneratorType,
     val size: UShort
 ) {
     var id by Delegates.notNull<UInt>()
@@ -30,18 +31,22 @@ class CreativeWorldInfo(
         owner == player.uniqueId || player.isOp
 
     fun canJoin(player: Player) =
-        !closed || hasPermissions(player)
+        !isClosed || hasPermissions(player)
 
-    fun toItemStack(forPlayer: Player? = null): ItemStack {
+    fun toItemStack(forPlayer: Player? = null, ignorePermissions: Boolean = false): ItemStack {
         val lore = mutableListOf(
-            Component.empty(),
-            "items.world.owner".translatable((Bukkit.getOfflinePlayer(owner).name ?: "???").plain),
-            "items.world.id".translatable(id.toString().plain)
+            "items.world.owner"
+                .translatable((Bukkit.getOfflinePlayer(owner).name ?: "???").plain)
+                .color(NamedTextColor.DARK_GRAY),
+
+            "items.world.id"
+                .translatable(id.toString().plain)
+                .color(NamedTextColor.DARK_GRAY)
         )
 
         val material =
-            if (forPlayer == null || canJoin(forPlayer)) {
-                lore.add("items.world.join".translatable())
+            if (!isClosed || ignorePermissions || (forPlayer != null && canJoin(forPlayer))) {
+                lore.add("items.world.join".translatable().color(NamedTextColor.DARK_GRAY))
                 Material.GRASS_BLOCK
             } else {
                 Material.BARRIER

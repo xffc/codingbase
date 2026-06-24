@@ -36,7 +36,7 @@ class PlayerWorldsMenu(
             }
 
             (0..<MAX_WORLDS).forEach { index ->
-                val item = worlds.getOrNull(index)?.toItemStack() ?: createWorldItem
+                val item = worlds.getOrNull(index)?.toItemStack(ignorePermissions = true) ?: createWorldItem
                 inv.setItem(index + 10, item)
             }
         }

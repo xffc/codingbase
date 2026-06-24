@@ -23,6 +23,8 @@ sealed class CustomItem<T>(
 
     protected abstract val menu: AbstractMenu
 
+    protected abstract val onSetValue: (T) -> Unit
+
     init {
         activeItems[id] = this
         stack.setTag(customItemKey, PersistentDataType.STRING, id.toString())

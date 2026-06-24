@@ -23,6 +23,3 @@ fun <P, C: Any> ItemStack.setTag(key: NamespacedKey, type: PersistentDataType<P,
         it.set(key, type, value)
     }
 }
-
-val ItemStack.worldId: UInt?
-    get() = persistentDataContainer.get(worldKey, PersistentDataType.LONG)?.toUInt()

@@ -5,24 +5,11 @@ menu:
 
   worldlist.title: "List of active worlds"
 
+  manageworld:
+    title: "Manage world"
+
   createworld:
     title: "World creation"
-
-    worldtype:
-      name: "World type"
-      void: "Void"
-      plain: "Plain"
-
-    worldname:
-      name: "World name"
-      text: "You have 30 seconds to type new world name in chat."
-      default: "<arg:0>'s world"
-
-    closed:
-      name: "Is world closed"
-      closed: "Yes"
-      open: "No"
-
     cancel: "Cancel world creation"
     create: "Create world"
 
@@ -33,10 +20,25 @@ items:
     owner: "Owner: <arg:0>"
     id: "ID: <arg:0>"
     join: "Click LMB to join"
+    default_name: "<arg:0>'s world"
 
   paged:
     next: "Next page"
     previous: "Previous page"
+
+  set_world_name:
+    name: "World name"
+    text: "You have 30 seconds to type new world name in chat."
+
+  set_world_type:
+    name: "World type"
+    void: "Void"
+    plain: "Plain"
+
+  set_is_closed:
+    name: "Is world closed"
+    closed: "Yes"
+    open: "No"
 
 messages:
   closed: "World is closed"

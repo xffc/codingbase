@@ -26,7 +26,7 @@ object Worlds : UIntIdTable("worlds") {
     fun update(info: CreativeWorldInfo, builder: UpdateBuilder<*>) {
         builder[name] = info.name.json
         builder[owner] = info.owner
-        builder[closed] = info.closed
+        builder[closed] = info.isClosed
         builder[generator] = info.generator
         builder[size] = info.size
     }

@@ -18,13 +18,13 @@ import org.bukkit.persistence.PersistentDataType
 class SwitchItem<T>(
     translationPath: String,
     override val menu: AbstractMenu,
-    private val entries: List<Entry<T>>
+    private val entries: List<Entry<T>>,
+    private var currentIndex: Int = 0,
+    override val onSetValue: (T) -> Unit = {}
 ) : CustomItem<T>(
     translationPath,
     ItemStack.of(Material.STONE).customName("${translationPath}.name".translatable())
 ) {
-    var currentIndex = 0
-
     init {
         stack = stack.update()
     }
@@ -33,7 +33,7 @@ class SwitchItem<T>(
 
     override fun ItemStack.update() = withType(entries[currentIndex].material)
         .customLore(entries.mapIndexed { index, entry ->
-            val prefixColor = if (index == currentIndex) NamedTextColor.DARK_RED else NamedTextColor.DARK_GRAY
+            val prefixColor = if (index == currentIndex) NamedTextColor.RED else NamedTextColor.DARK_GRAY
 
             val entryText = "${translationPath}.${entry.name}".translatable()
                 .color(if (index == currentIndex) NamedTextColor.WHITE else NamedTextColor.DARK_GRAY)
@@ -50,6 +50,8 @@ class SwitchItem<T>(
                 if (currentIndex <= 0) entries.size - 1
                 else currentIndex - 1
             else return
+
+        onSetValue(entries[currentIndex].value)
 
         event.whoClicked.playSound(sound(Sound.UI_BUTTON_CLICK) {
             it.pitch(1.25f)

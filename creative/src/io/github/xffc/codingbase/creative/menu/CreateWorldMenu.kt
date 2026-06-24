@@ -6,13 +6,13 @@ import io.github.xffc.codingbase.creative.extensions.plain
 import io.github.xffc.codingbase.creative.extensions.runSync
 import io.github.xffc.codingbase.creative.extensions.translatable
 import io.github.xffc.codingbase.creative.extensions.translate
-import io.github.xffc.codingbase.creative.items.SwitchItem
-import io.github.xffc.codingbase.creative.items.TextInputItem
+import io.github.xffc.codingbase.creative.menu.ManageWorldMenu.Companion.generateWorldManageItems
 import io.github.xffc.codingbase.creative.menu.PlayerWorldsMenu.Companion.MAX_WORLDS
 import io.github.xffc.codingbase.creative.util.DataInterface
 import io.github.xffc.codingbase.creative.worlds.CreativeWorldFactory
 import io.github.xffc.codingbase.creative.worlds.generator.WorldGeneratorType
 import kotlinx.coroutines.launch
+import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -29,39 +29,22 @@ class CreateWorldMenu(private val player: Player) : AbstractMenu("menu.createwor
             .customName("menu.createworld.create".translatable())
     }
 
-    val nameItem = TextInputItem(
-        "menu.createworld.worldname",
-        this,
-        ItemStack.of(Material.NAME_TAG)
-            .customName("menu.createworld.worldname.name".translatable()),
-        "menu.createworld.worldname.default".translate(player.locale(), player.name.plain)
+    val worldInfo = CreativeWorldInfo(
+        "items.world.default_name".translate(player.locale(), player.name.plain),
+        player.uniqueId,
+        true,
+        WorldGeneratorType.entries.first(),
+        3u // todo
     )
 
-    val typeItem = SwitchItem(
-        "menu.createworld.worldtype",
-        this,
-        WorldGeneratorType.entries.map {
-            SwitchItem.Entry(it.name.lowercase(), it, it.material)
-        }
-    )
-
-    val closedItem = SwitchItem(
-        "menu.createworld.closed",
-        this,
-        listOf(
-            SwitchItem.Entry("closed", true, Material.IRON_DOOR),
-            SwitchItem.Entry("open", false, Material.OAK_DOOR)
-        )
-    )
+    val items = generateWorldManageItems(this, worldInfo, true)
 
     init {
         tick()
     }
 
     override fun tick() {
-        inv.setItem(10, nameItem.stack)
-        inv.setItem(11, typeItem.stack)
-        inv.setItem(12, closedItem.stack)
+        items.forEachIndexed { index, item -> inv.setItem(index + 10, item.stack) }
         inv.setItem(15, cancelCreationItem)
         inv.setItem(16, createWorldItem)
     }
@@ -77,20 +60,13 @@ class CreateWorldMenu(private val player: Player) : AbstractMenu("menu.createwor
         cancel()
 
         DataInterface.scope.launch {
-            val info = suspendTransaction {
+            suspendTransaction {
                 if (DataInterface.countWorlds(player.uniqueId) >= MAX_WORLDS) return@suspendTransaction null
-
-                CreativeWorldInfo(
-                    nameItem.getValue(),
-                    player.uniqueId,
-                    closedItem.getValue(),
-                    typeItem.getValue(),
-                    3u
-                ).also { DataInterface.create(it) }
-            } ?: return@launch destroy()
+                DataInterface.create(worldInfo)
+            } ?: return@launch
 
             runSync {
-                CreativeWorldFactory.create(info).join(player)
+                CreativeWorldFactory.create(worldInfo).join(player)
             }
         }
     }
@@ -101,9 +77,7 @@ class CreateWorldMenu(private val player: Player) : AbstractMenu("menu.createwor
     }
 
     private fun destroy() {
-        typeItem.destroy()
-        nameItem.destroy()
-        closedItem.destroy()
+        items.forEach { it.destroy() }
     }
 
     override fun onClose(event: InventoryCloseEvent) {

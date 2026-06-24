@@ -1,6 +1,7 @@
 package io.github.xffc.codingbase.creative.items
 
 import io.github.xffc.codingbase.creative.extensions.customLore
+import io.github.xffc.codingbase.creative.extensions.customName
 import io.github.xffc.codingbase.creative.extensions.noStyle
 import io.github.xffc.codingbase.creative.extensions.runSync
 import io.github.xffc.codingbase.creative.extensions.translatable
@@ -20,12 +21,15 @@ class TextInputItem(
     translationPath: String,
     override val menu: AbstractMenu,
     stack: ItemStack,
-    var text: Component = Component.empty()
+    var text: Component = Component.empty(),
+    override val onSetValue: (Component) -> Unit = {}
 ) : CustomItem<Component>(translationPath, stack) {
     private var deferred: CompletableDeferred<Component>? = null
 
     init {
-        this.stack = stack.update()
+        this.stack
+            .customName("${translationPath}.name".translatable())
+            .update()
     }
 
     override fun getValue() = text
@@ -59,6 +63,7 @@ class TextInputItem(
             deferred = null
             if (newValue != null) {
                 text = newValue
+                onSetValue(text)
                 stack = stack.update()
                 menu.tick()
             }

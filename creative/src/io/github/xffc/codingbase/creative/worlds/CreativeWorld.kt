@@ -31,4 +31,8 @@ class CreativeWorld(
         state.onPlayerJoin(player)
         player.teleport(instance.spawnLocation)
     }
+
+    fun quit(player: Player) {
+        state.onPlayerQuit(player)
+    }
 }

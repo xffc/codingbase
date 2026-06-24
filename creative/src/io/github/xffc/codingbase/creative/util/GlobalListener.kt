@@ -1,6 +1,7 @@
 package io.github.xffc.codingbase.creative.util
 
 import io.github.xffc.codingbase.creative.CreativePlugin.spawnWorld
+import io.github.xffc.codingbase.creative.extensions.creative
 import io.github.xffc.codingbase.creative.extensions.uuid
 import io.github.xffc.codingbase.creative.items.CustomItem
 import io.github.xffc.codingbase.creative.items.CustomItem.Companion.customItemKey
@@ -31,6 +32,7 @@ object GlobalListener: Listener {
     fun onPlayerQuit(event: PlayerQuitEvent) {
         val pipeline = (event.player as CraftPlayer).handle.connection.connection.channel.pipeline()
         if (pipeline.get("packet_interceptor") != null ) pipeline.remove("packet_interceptor")
+        event.player.world.creative?.quit(event.player)
     }
 
     @EventHandler

@@ -7,4 +7,10 @@ sealed class CreativeEvent {
         .lowercase()
 
     abstract class Player: CreativeEvent()
+
+    companion object {
+        val registry = CreativeEvent::class.sealedSubclasses
+            .mapNotNull { it.objectInstance }
+            .associateBy { it.id }
+    }
 }

@@ -7,4 +7,5 @@ sealed class WorldState {
     abstract val world: CreativeWorld
 
     open fun onPlayerJoin(player: Player) {}
+    open fun onPlayerQuit(player: Player) {}
 }

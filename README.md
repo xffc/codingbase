@@ -11,8 +11,8 @@
   * [X] factory для создания
   * [X] бд
   * [ ] worldstate
-    * playstate
-    * buildstate
+    * [ ] playstate
+    * [ ] buildstate
 * [ ] код или чета такое
   * [ ] рантайм
   * [ ] контекст

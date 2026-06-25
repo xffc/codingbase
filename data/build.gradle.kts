@@ -1,3 +1,7 @@
+plugins {
+    alias(libs.plugins.kotlin.serialization)
+}
+
 dependencies {
-    implementation(libs.serialization.core)
+    compileOnly(libs.serialization.core)
 }

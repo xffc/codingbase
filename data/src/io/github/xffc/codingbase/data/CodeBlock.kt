@@ -3,11 +3,11 @@ package io.github.xffc.codingbase.data
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-typealias CodeBody = List<CodeBlock.MethodBlock>
-
 @Serializable
 sealed interface CodeBlock {
     val id: String
+
+    typealias CodeBody = List<MethodBlock>
 
     interface HasBody {
         val body: CodeBody
@@ -29,6 +29,14 @@ sealed interface CodeBlock {
             override val id: String,
             override val body: CodeBody
         ) : MethodBlock, HasBody
+
+        @Serializable
+        @SerialName("else")
+        data class ElseBlock(
+            override val body: CodeBody
+        ) : MethodBlock, HasBody {
+            override val id: String = "else"
+        }
     }
 
     @Serializable

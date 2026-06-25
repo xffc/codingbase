@@ -6,7 +6,7 @@ sealed class CreativeEvent {
         .replace(Regex("([a-z])([A-Z])"), "$1_$2")
         .lowercase()
 
-    abstract class Player: CreativeEvent()
+    sealed interface Player
 
     companion object {
         val registry = CreativeEvent::class.sealedSubclasses

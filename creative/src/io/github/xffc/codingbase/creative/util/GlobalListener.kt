@@ -59,8 +59,8 @@ object GlobalListener: Listener {
 
     @EventHandler
     fun onAsyncChat(event: AsyncChatEvent) {
-        val id = event.player.persistentDataContainer.get(customItemKey, PersistentDataType.STRING).also{println(it)}?.uuid ?: return
-        val textInput = CustomItem.activeItems[id].also{println(it)} as? TextInputItem ?: return
+        val id = event.player.persistentDataContainer.get(customItemKey, PersistentDataType.STRING)?.uuid ?: return
+        val textInput = CustomItem.activeItems[id] as? TextInputItem ?: return
         textInput.complete(event.message())
         event.isCancelled = true
     }

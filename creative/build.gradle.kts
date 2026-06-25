@@ -14,9 +14,12 @@ dependencies {
     paperLibrary(libs.exposed.core)
     paperLibrary(libs.exposed.json)
     paperLibrary(libs.exposed.jdbc)
+    paperLibrary(libs.classgraph)
     paperLibrary("com.h2database:h2:2.4.240")
 
-    implementation(project(":data"))
+    implementation(project(":data")) {
+        isTransitive = false
+    }
 }
 
 paper {

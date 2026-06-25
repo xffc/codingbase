@@ -1,0 +1,12 @@
+[
+  {
+    "type": "event",
+    "event": "player_join",
+    "body": [
+      {
+        "type": "action",
+        "id": "send_message"
+      }
+    ]
+  }
+]

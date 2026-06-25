@@ -1,3 +1,3 @@
 package io.github.xffc.codingbase.creative.code.events
 
-object PlayerJoinEvent: CreativeEvent.Player()
+object PlayerJoinEvent: CreativeEvent(), CreativeEvent.Player

@@ -26,7 +26,7 @@ interface StateCommands {
 
     @Suppress("unused")
     object Play : AbstractCommand("play"), StateCommands {
-        override val stateGetter: (CreativeWorld) -> WorldState = { BuildState(it) }
+        override val stateGetter: (CreativeWorld) -> WorldState = { PlayState(it) }
 
         override fun LiteralArgumentBuilder<CommandSourceStack>.init() {
             createCommand()
@@ -35,7 +35,7 @@ interface StateCommands {
 
     @Suppress("unused")
     object Build : AbstractCommand("build"), StateCommands {
-        override val stateGetter: (CreativeWorld) -> WorldState = { PlayState(it) }
+        override val stateGetter: (CreativeWorld) -> WorldState = { BuildState(it) }
 
         override fun LiteralArgumentBuilder<CommandSourceStack>.init() {
             createCommand()

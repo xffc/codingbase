@@ -1,12 +1,16 @@
 package io.github.xffc.codingbase.creative
 
+import io.github.xffc.codingbase.creative.code.events.CreativeEvent
 import io.github.xffc.codingbase.creative.commands.AbstractCommand
 import io.github.xffc.codingbase.creative.data.Worlds
 import io.github.xffc.codingbase.creative.extensions.namespaced
 import io.github.xffc.codingbase.creative.items.CustomItem
 import io.github.xffc.codingbase.creative.util.DataInterface
 import io.github.xffc.codingbase.creative.util.GlobalListener
+import io.github.xffc.codingbase.data.CodeBlock
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import net.kyori.adventure.text.minimessage.translation.MiniMessageTranslationStore
 import net.kyori.adventure.translation.GlobalTranslator
 import org.bukkit.Bukkit
@@ -22,6 +26,9 @@ object CreativePlugin : JavaPlugin() {
     val locales = listOf(Locale.US)
 
     val IS_DEBUG_ENV = System.getProperty("IS_DEBUG", "true").toBoolean()
+    val DEBUG_CODE: List<CodeBlock.StartBlock> = getTextResource("debug_code.json")!!.use { reader ->
+        Json.decodeFromString(reader.readText())
+    }
 
     const val WORLDS_PREFIX = "worlds/"
 

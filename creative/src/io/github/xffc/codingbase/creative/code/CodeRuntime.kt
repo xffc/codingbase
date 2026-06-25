@@ -34,6 +34,6 @@ class CodeRuntime(
         }
     }
 
-    fun createContext(body: CodeBlock.CodeBody): CodeContext =
+    fun createContext(body: CodeBlock.Body): CodeContext =
         CodeContext(this, body.listIterator())
 }

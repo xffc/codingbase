@@ -1,6 +1,8 @@
 package io.github.xffc.codingbase.creative.code
 
 import io.github.classgraph.ClassGraph
+import io.github.xffc.codingbase.creative.code.options.CodeMethodOption
+import io.github.xffc.codingbase.data.CodeBlock
 
 sealed class CodeMethod<T> {
     val id = this::class.simpleName!!
@@ -8,7 +10,9 @@ sealed class CodeMethod<T> {
         .replace(Regex("([a-z])([A-Z])"), "$1_$2")
         .lowercase()
 
-    abstract fun execute(context: CodeContext): T
+    abstract val options: List<CodeMethodOption>
+
+    abstract fun execute(context: CodeContext, arguments: CodeBlock.Arguments): T
 
     abstract class Action : CodeMethod<Unit>()
     abstract class Condition : CodeMethod<Boolean>()

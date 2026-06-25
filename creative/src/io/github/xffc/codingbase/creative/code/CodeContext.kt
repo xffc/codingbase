@@ -22,7 +22,7 @@ class CodeContext(
 
                 val elseBlock = peek { it is CodeBlock.MethodBlock.ElseBlock } as? CodeBlock.MethodBlock.ElseBlock
 
-                val nextBody: CodeBlock.CodeBody =
+                val nextBody: CodeBlock.Body =
                     if (result) block.body
                     else elseBlock?.body ?: return
 
@@ -48,7 +48,7 @@ class CodeContext(
     private inline fun <reified M: CodeMethod<T>, T> execute(block: CodeBlock.MethodBlock): T {
         val method = CodeMethod.registry[block.id] ?: throw IllegalArgumentException("Method ${block.id} not found")
         if (method !is M) throw IllegalArgumentException("Method ${block.id} is not ${M::class.simpleName}")
-        return method.execute(this)
+        return method.execute(this, block.arguments)
     }
 
     fun stop() {

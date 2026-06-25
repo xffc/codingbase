@@ -7,35 +7,40 @@ import kotlinx.serialization.Serializable
 sealed interface CodeBlock {
     val id: String
 
-    typealias CodeBody = List<MethodBlock>
+    typealias Body = List<MethodBlock>
+    typealias Arguments = Map<String, CodeArgument>
 
     interface HasBody {
-        val body: CodeBody
+        val body: Body
     }
 
     @Serializable
     sealed interface MethodBlock : CodeBlock {
-        // todo: аргументы
+        val arguments: Arguments
 
         @Serializable
         @SerialName("action")
         data class ActionBlock(
-            override val id: String
+            override val id: String,
+            override val arguments: Arguments = mapOf()
         ) : MethodBlock
 
         @Serializable
         @SerialName("condition")
         data class ConditionBlock(
             override val id: String,
-            override val body: CodeBody
+            override val arguments: Arguments = mapOf(),
+            override val body: Body = listOf(),
+            val isInverted: Boolean = false
         ) : MethodBlock, HasBody
 
         @Serializable
         @SerialName("else")
         data class ElseBlock(
-            override val body: CodeBody
+            override val body: Body
         ) : MethodBlock, HasBody {
             override val id: String = "else"
+            override val arguments: Arguments = mapOf()
         }
     }
 
@@ -46,7 +51,7 @@ sealed interface CodeBlock {
         data class EventBlock(
             @SerialName("event")
             override val id: String,
-            override val body: CodeBody
+            override val body: Body = listOf()
         ) : StartBlock
 
         @Serializable
@@ -54,7 +59,7 @@ sealed interface CodeBlock {
         data class FunctionBlock(
             @SerialName("name")
             override val id: String,
-            override val body: CodeBody
+            override val body: Body = listOf()
         ) : StartBlock
     }
 }

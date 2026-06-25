@@ -5,7 +5,14 @@
     "body": [
       {
         "type": "action",
-        "id": "send_message"
+        "id": "send_message",
+        "arguments": {
+          "text": {
+            "type": "text",
+            "text": "Hello, <gold>%source%</gold>!",
+            "serializer": "MINI_MESSAGE"
+          }
+        }
       }
     ]
   }

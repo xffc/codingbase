@@ -4,7 +4,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
 import io.github.xffc.codingbase.creative.extensions.creative
 import io.github.xffc.codingbase.creative.menu.ManageWorldMenu
-import io.github.xffc.codingbase.creative.menu.PlayerWorldsMenu
 import io.papermc.paper.command.brigadier.CommandSourceStack
 import org.bukkit.entity.Player
 
@@ -12,7 +11,7 @@ import org.bukkit.entity.Player
 object ManageWorldCommand: AbstractCommand("manageworld") {
     override fun LiteralArgumentBuilder<CommandSourceStack>.init() {
         requires { it.sender is Player }
-        executes(::openMenu)
+        executesConsumer(::openMenu)
     }
 
     private fun openMenu(context: CommandContext<CommandSourceStack>) {

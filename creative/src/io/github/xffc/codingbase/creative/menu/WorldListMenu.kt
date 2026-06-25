@@ -1,5 +1,6 @@
 package io.github.xffc.codingbase.creative.menu
 
+import io.github.xffc.codingbase.creative.extensions.runSync
 import io.github.xffc.codingbase.creative.extensions.translatable
 import io.github.xffc.codingbase.creative.extensions.worldId
 import io.github.xffc.codingbase.creative.worlds.CreativeWorld
@@ -26,6 +27,7 @@ class WorldListMenu(
     override fun onClick(event: InventoryClickEvent) {
         super.onClick(event)
         val id = event.currentItem?.worldId ?: return
+        runSync { event.whoClicked.closeInventory() }
         CreativeWorldFactory.activeWorlds[id]?.join(player)
     }
 }

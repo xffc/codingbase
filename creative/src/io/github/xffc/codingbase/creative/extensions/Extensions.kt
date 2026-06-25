@@ -10,6 +10,7 @@ import org.bukkit.NamespacedKey
 import org.bukkit.World
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
+import org.bukkit.scheduler.BukkitTask
 import java.util.UUID
 import kotlin.toUInt
 
@@ -31,6 +32,12 @@ val World.creative: CreativeWorld?
 
 fun runSync(consumer: Runnable) =
     Bukkit.getScheduler().runTask(CreativePlugin, consumer)
+
+fun runOnPrimary(consumer: Runnable): BukkitTask? =
+    if (Bukkit.isPrimaryThread()) {
+        consumer.run()
+        null
+    } else runSync(consumer)
 
 fun sound(type: Sound.Type, consumer: (Sound.Builder) -> Unit) = Sound.sound()
     .type(type)

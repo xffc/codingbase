@@ -1,11 +1,15 @@
 package io.github.xffc.codingbase.creative.worlds
 
 import io.github.xffc.codingbase.creative.data.CreativeWorldInfo
+import io.github.xffc.codingbase.creative.extensions.runOnPrimary
 import io.github.xffc.codingbase.creative.extensions.translatable
 import io.github.xffc.codingbase.creative.worlds.state.BuildState
 import io.github.xffc.codingbase.creative.worlds.state.WorldState
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.bukkit.World
 import org.bukkit.entity.Player
+import kotlin.time.Duration.Companion.seconds
 
 // todo: world state
 class CreativeWorld(
@@ -34,7 +38,10 @@ class CreativeWorld(
         }
 
         state.onPlayerJoin(player)
-        player.teleport(instance.spawnLocation)
+
+        runOnPrimary {
+            player.teleport(instance.spawnLocation)
+        }
     }
 
     fun quit(player: Player) {

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 object MyWorldsCommand: AbstractCommand("myworlds") {
     override fun LiteralArgumentBuilder<CommandSourceStack>.init() {
         requires { it.sender is Player }
-        executes(::openMenu)
+        executesConsumer(::openMenu)
     }
 
     private fun openMenu(context: CommandContext<CommandSourceStack>) {

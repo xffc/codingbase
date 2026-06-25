@@ -20,7 +20,7 @@ sealed class AbstractCommand(name: String) {
         val registry = AbstractCommand::class.sealedSubclasses
             .mapNotNull { it.objectInstance }
 
-        fun <T: ArgumentBuilder<CommandSourceStack, T>> T.executes(
+        fun <T: ArgumentBuilder<CommandSourceStack, T>> T.executesConsumer(
             consumer: (CommandContext<CommandSourceStack>) -> Unit
         ): T = executes {
             consumer(it)

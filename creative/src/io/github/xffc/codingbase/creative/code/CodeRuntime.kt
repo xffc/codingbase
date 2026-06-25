@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import org.bukkit.entity.Entity
 import java.io.File
+import java.util.Collections
 
 class CodeRuntime(
     val state: PlayState,
@@ -21,7 +22,7 @@ class CodeRuntime(
         .filterIsInstance<CodeBlock.StartBlock.FunctionBlock>()
         .associateBy { it.id }
 
-    private val contexts: MutableList<CodeContext> = mutableListOf()
+    private val contexts = Collections.synchronizedList(mutableListOf<CodeContext>())
 
     val globalVariables: CodeValue.Variables = hashMapOf()
 

@@ -1,8 +1,7 @@
 package io.github.xffc.codingbase.creative.commands
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import com.mojang.brigadier.context.CommandContext
-import io.github.xffc.codingbase.creative.commands.AbstractCommand.Companion.executes
+import io.github.xffc.codingbase.creative.commands.AbstractCommand.Companion.executesConsumer
 import io.github.xffc.codingbase.creative.extensions.creative
 import io.github.xffc.codingbase.creative.worlds.CreativeWorld
 import io.github.xffc.codingbase.creative.worlds.state.*
@@ -10,35 +9,34 @@ import io.papermc.paper.command.brigadier.CommandSourceStack
 import org.bukkit.entity.Player
 
 interface StateCommands {
-    val stateGetter: (CreativeWorld) -> WorldState
+    companion object {
+        inline fun <reified S: WorldState> createCommand(
+            command: LiteralArgumentBuilder<CommandSourceStack>,
+            crossinline stateGetter: (CreativeWorld) -> S
+        ): Any = command
+            .requires { it.sender is Player }
+            .executesConsumer { context ->
+                val player = context.source.sender as Player
+                val world = player.world.creative ?: return@executesConsumer
 
-    fun LiteralArgumentBuilder<CommandSourceStack>.createCommand() {
-        requires { it.sender is Player }
-        executes(::changeState)
-    }
+                if (!world.info.hasPermissions(player)) return@executesConsumer
 
-    fun changeState(context: CommandContext<CommandSourceStack>) {
-        val player = context.source.sender as Player
-        val world = player.world.creative ?: return
-        if (!world.info.hasPermissions(player)) return
-        world.changeState(stateGetter(world))
+                if (world.state is S) world.join(player, true)
+                else world.changeState(stateGetter(world))
+            }
     }
 
     @Suppress("unused")
     object Play : AbstractCommand("play"), StateCommands {
-        override val stateGetter: (CreativeWorld) -> WorldState = { PlayState(it) }
-
         override fun LiteralArgumentBuilder<CommandSourceStack>.init() {
-            createCommand()
+            createCommand(this) { PlayState(it) }
         }
     }
 
     @Suppress("unused")
     object Build : AbstractCommand("build"), StateCommands {
-        override val stateGetter: (CreativeWorld) -> WorldState = { BuildState(it) }
-
         override fun LiteralArgumentBuilder<CommandSourceStack>.init() {
-            createCommand()
+            createCommand(this) { BuildState(it) }
         }
     }
 }

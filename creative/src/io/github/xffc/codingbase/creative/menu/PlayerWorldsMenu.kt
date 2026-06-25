@@ -19,7 +19,7 @@ class PlayerWorldsMenu(
     companion object {
         const val MAX_WORLDS = 4 // todo: временное решение пока что, потом перенести в мету игрока лакпермса
 
-        private val createWorldItem = ItemStack.of(Material.WHITE_STAINED_GLASS_PANE)
+        private val createWorldItem = ItemStack.of(Material.WHITE_STAINED_GLASS)
             .customName("menu.playerworlds.create".translatable())
     }
 
@@ -28,8 +28,6 @@ class PlayerWorldsMenu(
     }
 
     override fun tick() {
-        (0..<27).forEach { inv.setItem(it, FILL_ITEM) }
-
         DataInterface.scope.launch {
             val worlds = suspendTransaction {
                 DataInterface.getPlayerWorlds(player.uniqueId)

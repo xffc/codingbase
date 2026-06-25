@@ -7,6 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import org.bukkit.entity.Entity
 
 class CodeRuntime(
     val state: PlayState,
@@ -22,9 +23,9 @@ class CodeRuntime(
 
     val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    fun runEvent(event: CreativeEvent) = events[event]?.map {
+    fun runEvent(event: CreativeEvent, source: Entity? = null, target: Entity? = null) = events[event]?.map {
         scope.launch {
-            runCode(createContext(it.body))
+            runCode(createContext(it.body, TargetSelector(source, target)))
         }
     }
 
@@ -34,6 +35,6 @@ class CodeRuntime(
         }
     }
 
-    fun createContext(body: CodeBlock.Body): CodeContext =
-        CodeContext(this, body.listIterator())
+    fun createContext(body: CodeBlock.Body, selector: TargetSelector): CodeContext =
+        CodeContext(this, body.listIterator(), selector)
 }

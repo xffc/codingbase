@@ -4,7 +4,8 @@ import io.github.xffc.codingbase.data.CodeBlock
 
 class CodeContext(
     val runtime: CodeRuntime,
-    private val bodyIterator: ListIterator<CodeBlock.MethodBlock>
+    private val bodyIterator: ListIterator<CodeBlock.MethodBlock>,
+    val selector: TargetSelector
 ) {
     var isStopped: Boolean = false
         private set
@@ -26,12 +27,15 @@ class CodeContext(
                     if (result) block.body
                     else elseBlock?.body ?: return
 
-                runtime.runCode(runtime.createContext(nextBody))
+                runtime.runCode(clone(nextBody))
             }
 
             else -> throw IllegalArgumentException("Invalid block ${block.id}")
         }
     }
+
+    fun clone(body: CodeBlock.Body) =
+        runtime.createContext(body, selector)
 
     private fun peek(consumer: (CodeBlock.MethodBlock) -> Boolean): CodeBlock.MethodBlock? {
         if (!bodyIterator.hasNext()) return null

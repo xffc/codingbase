@@ -23,6 +23,6 @@ class PlayState(
     )
 
     override fun onPlayerJoin(player: Player) {
-        runtime.runEvent(PlayerJoinEvent)
+        runtime.runEvent(PlayerJoinEvent, player)
     }
 }

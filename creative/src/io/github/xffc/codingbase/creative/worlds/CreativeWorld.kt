@@ -17,13 +17,18 @@ class CreativeWorld(
 
     // todo игроков которые уже в мире переспавнить и всё такое
     fun changeState(newState: WorldState) {
-        println("changed state")
+        instance.players.forEach { quit(it) }
+
+        state.onWorldStop()
         state = newState
+        state.onWorldStart()
+
+        instance.players.forEach { join(it) }
     }
 
     // todo: сброс игрока
-    fun join(player: Player) {
-        if (!info.canJoin(player)) {
+    fun join(player: Player, ignore: Boolean = false) {
+        if (!ignore && !info.canJoin(player)) {
             player.sendMessage("messages.closed".translatable())
             return
         }

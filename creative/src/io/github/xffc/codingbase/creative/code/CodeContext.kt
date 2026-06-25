@@ -5,7 +5,8 @@ import io.github.xffc.codingbase.data.CodeBlock
 class CodeContext(
     val runtime: CodeRuntime,
     private val bodyIterator: ListIterator<CodeBlock.MethodBlock>,
-    val selector: TargetSelector
+    val selector: TargetSelector,
+    val localVariables: CodeValue.Variables = hashMapOf()
 ) {
     var isStopped: Boolean = false
         private set
@@ -35,7 +36,7 @@ class CodeContext(
     }
 
     fun clone(body: CodeBlock.Body) =
-        runtime.createContext(body, selector)
+        runtime.createContext(body, selector, localVariables)
 
     private fun peek(consumer: (CodeBlock.MethodBlock) -> Boolean): CodeBlock.MethodBlock? {
         if (!bodyIterator.hasNext()) return null

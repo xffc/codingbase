@@ -5,12 +5,16 @@ import io.github.xffc.codingbase.creative.commands.AbstractCommand
 import io.github.xffc.codingbase.creative.data.Worlds
 import io.github.xffc.codingbase.creative.extensions.namespaced
 import io.github.xffc.codingbase.creative.items.CustomItem
+import io.github.xffc.codingbase.creative.util.ComponentSerializer
 import io.github.xffc.codingbase.creative.util.DataInterface
 import io.github.xffc.codingbase.creative.util.GlobalListener
 import io.github.xffc.codingbase.data.CodeBlock
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.plus
+import kotlinx.serialization.modules.serializersModuleOf
 import net.kyori.adventure.text.minimessage.translation.MiniMessageTranslationStore
 import net.kyori.adventure.translation.GlobalTranslator
 import org.bukkit.Bukkit

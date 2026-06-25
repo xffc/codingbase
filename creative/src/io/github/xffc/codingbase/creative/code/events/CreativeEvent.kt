@@ -7,6 +7,7 @@ sealed class CreativeEvent {
         .lowercase()
 
     sealed interface Player
+    sealed interface World
 
     companion object {
         val registry = CreativeEvent::class.sealedSubclasses

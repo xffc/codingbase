@@ -1,6 +1,46 @@
 [
   {
     "type": "event",
+    "event": "world_start",
+    "body": [
+      {
+        "type": "condition",
+        "id": "variable_exists",
+        "arguments": {
+          "variable": {
+            "type": "variable",
+            "name": "last_player_joined",
+            "scope": "SAVED"
+          }
+        },
+        "body": [
+          {
+            "type": "action",
+            "id": "send_message",
+            "arguments": {
+              "text": {
+                "type": "variable",
+                "name": "last_player_joined",
+                "scope": "SAVED"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "action",
+        "id": "delay",
+        "arguments": {
+          "delay": {
+            "type": "number",
+            "value": 30000.0
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "event",
     "event": "player_join",
     "body": [
       {
@@ -11,6 +51,83 @@
             "type": "text",
             "text": "Hello, <gold>%source%</gold>!",
             "serializer": "MINI_MESSAGE"
+          }
+        }
+      },
+      {
+        "type": "action",
+        "id": "send_message",
+        "arguments": {
+          "text": {
+            "type": "text",
+            "text": "Last player joined was:",
+            "serializer": "MINI_MESSAGE"
+          }
+        }
+      },
+      {
+        "type": "condition",
+        "id": "variable_exists",
+        "arguments": {
+          "variable": {
+            "type": "variable",
+            "name": "last_player_joined",
+            "scope": "SAVED"
+          }
+        },
+        "body": [
+          {
+            "type": "action",
+            "id": "send_message",
+            "arguments": {
+              "text": {
+                "type": "variable",
+                "name": "last_player_joined",
+                "scope": "SAVED"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "else",
+        "body": [
+          {
+            "type": "action",
+            "id": "send_message",
+            "arguments": {
+              "text": {
+                "type": "text",
+                "text": "<red>No one joined yet!",
+                "serializer": "MINI_MESSAGE"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "action",
+        "id": "set_variable",
+        "arguments": {
+          "variable": {
+            "type": "variable",
+            "name": "last_player_joined",
+            "scope": "SAVED"
+          },
+          "value": {
+            "type": "text",
+            "text": "%source%",
+            "serializer": "PLAIN"
+          }
+        }
+      },
+      {
+        "type": "action",
+        "id": "delay",
+        "arguments": {
+          "delay": {
+            "type": "number",
+            "value": 30000.0
           }
         }
       }

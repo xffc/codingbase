@@ -1,17 +1,22 @@
 package io.github.xffc.codingbase.creative
 
+import io.github.xffc.codingbase.creative.code.CodeMethod
 import io.github.xffc.codingbase.creative.code.events.CreativeEvent
 import io.github.xffc.codingbase.creative.commands.AbstractCommand
 import io.github.xffc.codingbase.creative.data.Worlds
 import io.github.xffc.codingbase.creative.extensions.namespaced
 import io.github.xffc.codingbase.creative.items.CustomItem
 import io.github.xffc.codingbase.creative.util.ComponentSerializer
+import io.github.xffc.codingbase.creative.util.DataExporter
 import io.github.xffc.codingbase.creative.util.DataInterface
 import io.github.xffc.codingbase.creative.util.GlobalListener
 import io.github.xffc.codingbase.data.CodeBlock
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.plus
 import kotlinx.serialization.modules.serializersModuleOf
@@ -40,6 +45,10 @@ object CreativePlugin : JavaPlugin() {
         private set
 
     override fun onEnable() {
+        dataFolder.mkdir()
+
+        DataExporter.export()
+
         spawnWorld = server.worlds.first()
 
         registerLocales()

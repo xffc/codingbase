@@ -1,6 +1,6 @@
 package io.github.xffc.codingbase.compiler
 
-import io.github.xffc.codingbase.compiler.structure.Token
+import io.github.xffc.codingbase.compiler.AbstractConsumeContext
 
 object Lexer {
     fun getTokens(text: CharSequence): List<Token> = buildList {

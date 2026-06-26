@@ -1,4 +1,4 @@
-package io.github.xffc.codingbase.compiler.structure
+package io.github.xffc.codingbase.compiler
 
 data class Token(
     val type: Type,

@@ -5,6 +5,8 @@ import io.github.xffc.codingbase.creative.code.CodeValue
 import io.github.xffc.codingbase.creative.code.toValue
 import io.github.xffc.codingbase.data.CodeArgument
 import io.github.xffc.codingbase.data.CodeBlock
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 sealed interface CodeMethodOption {
     val name: String

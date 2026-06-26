@@ -1,8 +1,11 @@
-event:player_join {
-    send_message("hello":MINI_MESSAGE, 123.0, variable:GLOBAL)
-    teleport(-5, 0, -5)
+event:world_start {
+    if variable_exists(last_player_joined:SAVED) {
+        send_message(last_player_joined:SAVED)
+    }
 }
 
-event:damage_entity {
-    send_message("%source% damaged %target%":MINI_MESSAGE)
+event:player_join {
+    send_message("Hello, <gold>%source%</gold>!":MINI_MESSAGE)
+    send_message("Last player joined was:":MINI_MESSAGE)
+    send_message(last_player_joined:SAVED)
 }

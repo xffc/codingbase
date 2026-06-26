@@ -38,9 +38,6 @@ tasks.generatePaperPluginDescription {
 tasks.shadowJar {
     archiveClassifier.set("")
     configurations = listOf(project.configurations.getByName("runtimeClasspath"))
-
-    dependencies {
-    }
 }
 
 tasks.jar {

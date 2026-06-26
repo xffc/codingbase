@@ -1,0 +1,8 @@
+event:player_join {
+    send_message("hello":MINI_MESSAGE, 123.0, variable:GLOBAL)
+    teleport(-5, 0, -5)
+}
+
+event:damage_entity {
+    send_message("%source% damaged %target%":MINI_MESSAGE)
+}

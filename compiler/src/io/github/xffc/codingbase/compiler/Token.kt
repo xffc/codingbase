@@ -6,6 +6,7 @@ data class Token(
 ) {
     enum class Type(val char: Char? = null) {
         KEYWORD, TEXT, NUMBER,
+        INVERT('!'),
         COMMA(','), COLON(':'),
         LBRACE('{'), RBRACE('}'),
         LPAREN('('), RPAREN(')'),

@@ -5,7 +5,20 @@ event:world_start {
 }
 
 event:player_join {
+    if variable_exists(last_player_joined:SAVED) {
+        if !variable_equals("%source%":PLAIN, last_player_joined:SAVED) {
+            send_message("You were not the last player to join":MINI_MESSAGE)
+        }
+    }
+
     send_message("Hello, <gold>%source%</gold>!":MINI_MESSAGE)
     send_message("Last player joined was:":MINI_MESSAGE)
-    send_message(last_player_joined:SAVED)
+
+    if variable_exists(last_player_joined:SAVED) {
+        send_message(last_player_joined:SAVED)
+    } else {
+        send_message("<red>No one joined yet!":MINI_MESSAGE)
+    }
+
+    set_variable(last_player_joined:SAVED, "%source%":PLAIN)
 }

@@ -4,6 +4,7 @@ import kotlinx.serialization.json.Json
 import java.io.File
 import kotlin.jvm.java
 
+// todo: сделать нормальные exceptions
 object CompilerApp {
     private lateinit var dataFolder: File
 
@@ -23,7 +24,7 @@ object CompilerApp {
                 .readText()
         )
 
-        println(tokens.joinToString(" ") { "${it.type.name}(${it.text})" })
+        println(tokens.mapIndexed { index, token -> "${token.type.name}:${index}(${token.text})" })
 
         val methods = unpackData<Map<String, MethodEntry>>("methods.json")
         val code = Parser(methods).getBlocks(tokens)

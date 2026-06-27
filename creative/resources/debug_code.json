@@ -25,17 +25,8 @@
               }
             }
           }
-        ]
-      },
-      {
-        "type": "action",
-        "id": "delay",
-        "arguments": {
-          "delay": {
-            "type": "number",
-            "value": 30000.0
-          }
-        }
+        ],
+        "isInverted": false
       }
     ]
   },
@@ -43,6 +34,50 @@
     "type": "event",
     "event": "player_join",
     "body": [
+      {
+        "type": "condition",
+        "id": "variable_exists",
+        "arguments": {
+          "variable": {
+            "type": "variable",
+            "name": "last_player_joined",
+            "scope": "SAVED"
+          }
+        },
+        "body": [
+          {
+            "type": "condition",
+            "id": "variable_equals",
+            "arguments": {
+              "first": {
+                "type": "text",
+                "text": "%source%",
+                "serializer": "PLAIN"
+              },
+              "second": {
+                "type": "variable",
+                "name": "last_player_joined",
+                "scope": "SAVED"
+              }
+            },
+            "body": [
+              {
+                "type": "action",
+                "id": "send_message",
+                "arguments": {
+                  "text": {
+                    "type": "text",
+                    "text": "You were not the last player to join",
+                    "serializer": "MINI_MESSAGE"
+                  }
+                }
+              }
+            ],
+            "isInverted": true
+          }
+        ],
+        "isInverted": false
+      },
       {
         "type": "action",
         "id": "send_message",
@@ -87,7 +122,8 @@
               }
             }
           }
-        ]
+        ],
+        "isInverted": false
       },
       {
         "type": "else",
@@ -103,7 +139,9 @@
               }
             }
           }
-        ]
+        ],
+        "id": "else",
+        "arguments": {}
       },
       {
         "type": "action",
@@ -118,16 +156,6 @@
             "type": "text",
             "text": "%source%",
             "serializer": "PLAIN"
-          }
-        }
-      },
-      {
-        "type": "action",
-        "id": "delay",
-        "arguments": {
-          "delay": {
-            "type": "number",
-            "value": 30000.0
           }
         }
       }

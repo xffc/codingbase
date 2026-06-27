@@ -8,10 +8,10 @@ interface AbstractConsumeContext<T> {
     fun next()
     fun previous()
 
-    fun readUntil(consumer: () -> Boolean) {
+    fun readUntil(manualRead: Boolean = false, consumer: () -> Boolean) {
         while (true) {
             if (!consumer() || isExausted()) break
-            next()
+            if (!manualRead) next()
         }
     }
 }

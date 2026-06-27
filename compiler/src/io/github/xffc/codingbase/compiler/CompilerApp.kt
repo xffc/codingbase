@@ -1,5 +1,6 @@
 package io.github.xffc.codingbase.compiler
 
+import io.github.xffc.codingbase.data.export.MethodEntry
 import kotlinx.serialization.json.Json
 import java.io.File
 import kotlin.jvm.java

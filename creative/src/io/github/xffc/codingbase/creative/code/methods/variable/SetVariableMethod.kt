@@ -9,11 +9,12 @@ import io.github.xffc.codingbase.creative.code.options.CodeMethodOption.Argument
 import io.github.xffc.codingbase.creative.code.options.CodeMethodOption.ValueOption.Companion.getValue
 import io.github.xffc.codingbase.data.CodeArgument
 import io.github.xffc.codingbase.data.CodeBlock
+import io.github.xffc.codingbase.data.export.OptionType
 
 @Suppress("unused")
 object SetVariableMethod: CodeMethod.Action() {
-    val variableOption = CodeMethodOption.ArgumentOption("variable")
-    val valueOption = CodeMethodOption.ValueOption<CodeValue>("value")
+    val variableOption = CodeMethodOption.ArgumentOption("variable", OptionType.VARIABLE)
+    val valueOption = CodeMethodOption.ValueOption<CodeValue>("value", OptionType.ANY)
 
     override val options = listOf(variableOption, valueOption)
 

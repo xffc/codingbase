@@ -6,11 +6,12 @@ import io.github.xffc.codingbase.creative.code.CodeValue
 import io.github.xffc.codingbase.creative.code.options.CodeMethodOption
 import io.github.xffc.codingbase.creative.code.options.CodeMethodOption.ValueOption.Companion.getValue
 import io.github.xffc.codingbase.data.CodeBlock
+import io.github.xffc.codingbase.data.export.OptionType
 import kotlin.math.roundToLong
 
 @Suppress("unused")
 object DelayMethod: CodeMethod.Action() {
-    val delayOption = CodeMethodOption.ValueOption<CodeValue.Number>("delay")
+    val delayOption = CodeMethodOption.ValueOption<CodeValue.Number>("delay", OptionType.NUMBER)
 
     override val options = listOf(delayOption)
 

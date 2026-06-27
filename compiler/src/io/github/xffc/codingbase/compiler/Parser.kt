@@ -2,6 +2,8 @@ package io.github.xffc.codingbase.compiler
 
 import io.github.xffc.codingbase.data.CodeArgument
 import io.github.xffc.codingbase.data.CodeBlock
+import io.github.xffc.codingbase.data.export.MethodEntry
+import io.github.xffc.codingbase.data.export.OptionType
 
 class Parser(
     val methods: Map<String, MethodEntry>
@@ -71,8 +73,23 @@ class Parser(
         return CodeBlock.MethodBlock.ActionBlock(method.id, method.arguments)
     }
 
-    private fun parseArgument(context: Context): CodeArgument =
-        ArgumenType.registry.getValue(context.current.type).invoke(context, context.current)
+    private fun parseArgument(context: Context, option: MethodEntry.Option): CodeArgument {
+        val argumentToken = context.current
+        val argument = ArgumenType.registry.getValue(argumentToken.type).invoke(context, argumentToken)
+
+        val isCorrectType = when (option.type) {
+            OptionType.TEXT -> argument is CodeArgument.Text || argument is CodeArgument.Variable
+            OptionType.NUMBER -> argument is CodeArgument.Number || argument is CodeArgument.Variable
+            OptionType.VARIABLE -> argument is CodeArgument.Variable
+            OptionType.ENUM -> TODO()
+
+            OptionType.ANY -> true
+        }
+
+        if (!isCorrectType) throw IllegalArgumentException("Invalid argument $argumentToken type. Expected ${option.type}.")
+
+        return argument
+    }
 
     private fun parseMethod(context: Context): Method {
         val id = context.current.text
@@ -83,10 +100,11 @@ class Parser(
         val arguments = buildList {
             context.readUntil(true) {
                 context.expectNextToken(Token.Type.RPAREN, Token.Type.COMMA, *ArgumenType.registry.keys.toTypedArray())
+
                 when (context.current.type) {
                     Token.Type.RPAREN -> return@readUntil false
                     Token.Type.COMMA -> return@readUntil true
-                    else -> add(parseArgument(context))
+                    else -> add(parseArgument(context, method.options[size]))
                 }
                 true
             }
@@ -96,7 +114,7 @@ class Parser(
             id,
             method,
             method.options.indices.associate { index ->
-                method.options[index] to arguments[index]
+                method.options[index].name to arguments[index]
             }
         )
     }

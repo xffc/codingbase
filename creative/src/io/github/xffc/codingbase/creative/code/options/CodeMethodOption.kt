@@ -5,12 +5,14 @@ import io.github.xffc.codingbase.creative.code.CodeValue
 import io.github.xffc.codingbase.creative.code.toValue
 import io.github.xffc.codingbase.data.CodeArgument
 import io.github.xffc.codingbase.data.CodeBlock
+import io.github.xffc.codingbase.data.export.OptionType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 sealed interface CodeMethodOption {
     val name: String
     val required: Boolean
+    val type: OptionType
 
     fun getArgument(arguments: CodeBlock.Arguments): CodeArgument? {
         val argument = arguments[name]
@@ -24,7 +26,8 @@ sealed interface CodeMethodOption {
     }
 
     data class ArgumentOption(
-        override val name: String
+        override val name: String,
+        override val type: OptionType
     ) : CodeMethodOption {
         override val required = true
 
@@ -40,6 +43,7 @@ sealed interface CodeMethodOption {
 
     data class ValueOption<T : CodeValue>(
         override val name: String,
+        override val type: OptionType,
         override val required: Boolean = true,
         val defaultValue: T? = null
     ) : CodeMethodOption {

@@ -20,7 +20,10 @@ class CodeContext(
             }
 
             is CodeBlock.MethodBlock.ConditionBlock -> {
-                val result = execute<CodeMethod.Condition, Boolean>(block)
+                val result = execute<CodeMethod.Condition, Boolean>(block).let {
+                    if (block.isInverted) !it
+                    else it
+                }
 
                 val elseBlock = peek { it is CodeBlock.MethodBlock.ElseBlock } as? CodeBlock.MethodBlock.ElseBlock
 

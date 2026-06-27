@@ -1,3 +1,7 @@
 rootProject.name = "codingbase"
 
-include(":creative", ":data", ":compiler")
+include(
+    ":creative",
+    ":data",
+    ":compiler"
+)

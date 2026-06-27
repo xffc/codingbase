@@ -1,5 +1,8 @@
 plugins {
-    alias(libs.plugins.kotlin.jvm)
+    // apply плагинов, которые используются в нескольких местах чтоб загружались только 1 раз
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.shadow) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
 }
 
 group = "io.github.xffc.${name}"
@@ -15,23 +18,7 @@ subprojects {
 
     repositories.addAll(rootProject.repositories)
 
-    apply(plugin = rootProject.libs.plugins.kotlin.jvm.get().pluginId)
-
-    sourceSets.main {
-        kotlin.srcDir("src")
-        java.srcDir("src")
-        resources.srcDir("resources")
-    }
-
     tasks.withType<Jar> {
         destinationDirectory = file("$rootDir/build")
     }
-}
-
-kotlin {
-    jvmToolchain(25)
-}
-
-tasks.jar {
-    enabled = false
 }

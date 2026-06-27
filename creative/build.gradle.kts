@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.shadow)
     alias(libs.plugins.paperweight)
@@ -47,3 +48,11 @@ tasks.jar {
 tasks.build {
     dependsOn(tasks.shadowJar)
 }
+
+sourceSets.main {
+    kotlin.srcDir("src")
+    java.srcDir("src")
+    resources.srcDir("resources")
+}
+
+kotlin.jvmToolchain(21)

@@ -1,6 +1,7 @@
 plugins {
     // apply плагинов, которые используются в нескольких местах чтоб загружались только 1 раз
     alias(libs.plugins.kotlin.jvm) apply false
+    alias(editorlibs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.shadow) apply false
     alias(libs.plugins.kotlin.serialization) apply false
 }

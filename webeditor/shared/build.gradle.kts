@@ -14,6 +14,7 @@ kotlin {
     }
 
     sourceSets.commonMain.dependencies {
+        implementation(project(":data"))
         implementation(editorlibs.compose.runtime)
         implementation(editorlibs.compose.foundation)
         implementation(editorlibs.compose.material3)

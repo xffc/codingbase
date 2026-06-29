@@ -4,6 +4,7 @@ plugins {
     alias(editorlibs.plugins.kotlinMultiplatform)
     alias(editorlibs.plugins.composeMultiplatform)
     alias(editorlibs.plugins.composeCompiler)
+    alias(editorlibs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -21,5 +22,6 @@ kotlin {
         implementation(editorlibs.compose.uiToolingPreview)
         implementation(editorlibs.androidx.lifecycle.viewmodelCompose)
         implementation(editorlibs.androidx.lifecycle.runtimeCompose)
+        implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.2")
     }
 }

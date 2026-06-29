@@ -6,8 +6,11 @@ import kotlinx.browser.document
 import org.jetbrains.skiko.wasm.onWasmReady
 
 @OptIn(ExperimentalComposeUiApi::class)
-fun main() = onWasmReady {
-    ComposeViewport(document.body!!) {
-        App()
+fun main() {
+    onWasmReady {
+        val body = document.body ?: return@onWasmReady
+        ComposeViewport(body) {
+            App()
+        }
     }
 }

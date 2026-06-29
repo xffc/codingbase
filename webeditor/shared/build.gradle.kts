@@ -14,7 +14,6 @@ kotlin {
     }
 
     sourceSets.commonMain.dependencies {
-        implementation(project(":data"))
         implementation(editorlibs.compose.runtime)
         implementation(editorlibs.compose.foundation)
         implementation(editorlibs.compose.material3)
@@ -23,6 +22,8 @@ kotlin {
         implementation(editorlibs.compose.uiToolingPreview)
         implementation(editorlibs.androidx.lifecycle.viewmodelCompose)
         implementation(editorlibs.androidx.lifecycle.runtimeCompose)
+
         implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.2")
+        implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
     }
 }

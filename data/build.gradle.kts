@@ -1,14 +1,23 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
-    alias(libs.plugins.kotlin.jvm)
+    alias(editorlibs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlin.serialization)
 }
 
-dependencies {
-    compileOnly(libs.serialization.core)
-}
+kotlin {
+    jvm()
 
-sourceSets.main {
-    kotlin.srcDir("src")
-    java.srcDir("src")
-    resources.srcDir("resources")
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+    }
+
+    sourceSets.commonMain {
+        kotlin.srcDir("src")
+
+        dependencies {
+            implementation(libs.serialization.core)
+        }
+    }
 }

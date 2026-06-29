@@ -13,7 +13,9 @@ kotlin {
         binaries.executable()
     }
 
-    sourceSets.commonMain.dependencies {
+    sourceSets.webMain.dependencies {
+        implementation(rootProject.project(":data"))
+
         implementation(project(":webeditor:shared"))
 
         implementation(editorlibs.compose.ui)

@@ -1,9 +1,12 @@
 package io.github.xffc.codingbase.webeditor
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.util.fastForEach
 import androidx.navigation.compose.NavHost
@@ -19,12 +22,17 @@ fun App() {
     MaterialTheme(
         colorScheme = darkColorScheme()
     ) {
-        NavHost(
-            navController = navController,
-            startDestination = HomeScreen
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.surfaceBright
         ) {
-            composable<HomeScreen> { HomeScreenContent(navController) }
-            composable<ProjectScreen> { ProjectScreenContent(navController) }
+            NavHost(
+                navController = navController,
+                startDestination = HomeScreen
+            ) {
+                composable<HomeScreen> { HomeScreenContent(navController) }
+                composable<ProjectScreen> { ProjectScreenContent(navController) }
+            }
         }
     }
 }

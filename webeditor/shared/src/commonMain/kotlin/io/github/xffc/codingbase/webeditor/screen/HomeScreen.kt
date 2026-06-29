@@ -38,8 +38,7 @@ fun HomeScreenContent(navController: NavController) {
             Text("New project")
         }
 
-        Button({
-        }) {
+        Button({}) {
             Text("Open project")
         }
     }

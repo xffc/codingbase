@@ -5,7 +5,7 @@ dependencyResolutionManagement.versionCatalogs.create("editorlibs") {
 }
 
 // комментить при пушах чтобы у людей которые клонировали проект он не грузился 10 лет
-//enableWebEditor()
+enableWebEditor()
 
 include(":creative", ":data", ":compiler")
 

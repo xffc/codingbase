@@ -1,13 +1,13 @@
 rootProject.name = "codingbase"
 
 dependencyResolutionManagement.versionCatalogs.create("editorlibs") {
-    from(files("webeditor/libs.versions.toml"))
+    from(files("editor/libs.versions.toml"))
 }
 
 // комментить при пушах чтобы у людей которые клонировали проект он не грузился 10 лет
-enableWebEditor()
+enableEditor("editor")
 
 include(":creative", ":data", ":compiler")
 
-fun enableWebEditor() =
-    include(":webeditor", ":webeditor:webApp", ":webeditor:shared")
+fun enableEditor(prefix: String) =
+    include(":$prefix", ":$prefix:webApp", ":$prefix:shared", ":$prefix:desktopApp")

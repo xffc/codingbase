@@ -17,7 +17,7 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "${project.group}.mainKt"
+        mainClass = "${project.group}.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Exe)
